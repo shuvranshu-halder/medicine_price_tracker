@@ -1,1 +1,1 @@
-"This is the Initial Commit" 
+This is the Initial Commit 
