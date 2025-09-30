@@ -69,6 +69,6 @@ This project will be open-sourced under the **MIT License** (to be finalized).
 ---
 
 ## 📎 Links
-🔗 GitHub Repository: [Medicine Price Tracker For Affordable Healthcare](https://github.com/shuvranshu-halder/medicine_price_tracker_for_affordable_healthcare)
+🔗 GitHub Repository: [Medicine Price Tracker For Affordable Healthcare](https://github.com/shuvranshu-halder/medicine_price_tracker)
 
 ---
