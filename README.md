@@ -19,10 +19,9 @@ By making medicine price data transparent and easily accessible, we hope to empo
 
 ---
 
-## 🔧 Tech Stack (Updated)
+## 🔧 Tech Stack
 
 * **Backend / Scraping**: Python (Flask + Selenium)
-  *(Replaced BeautifulSoup with Selenium to handle dynamic JavaScript-rendered content.)*
 * **Database**: SQLite (initial), upgradeable to PostgreSQL/MongoDB
 * **Frontend / Dashboard**: React.js with Axios for API calls
 * **Deployment**: Vercel (Not finalised yet)
