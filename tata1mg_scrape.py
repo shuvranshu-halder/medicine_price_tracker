@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 import time
+import re
 
 def get_medicine_price(medicine_name: str):
     # Setup Chrome options
@@ -10,6 +11,8 @@ def get_medicine_price(medicine_name: str):
     options.add_argument('--headless')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--disable-blink-features=AutomationControlled')
+    options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36')
 
     driver = webdriver.Chrome(options=options)
 
@@ -24,6 +27,7 @@ def get_medicine_price(medicine_name: str):
         products = soup.find_all('div', {'class': lambda x: x and 'ProductCard' in x})
         if not products:
             products = soup.find_all('a', {'href': lambda x: x and '/drugs/' in x})
+            # print("first if not products")
 
         if not products:
             print(f"No medicine named '{medicine_name}' found.")
@@ -31,17 +35,56 @@ def get_medicine_price(medicine_name: str):
 
         print(f"Top results for '{medicine_name}':\n")
         for p in products[:5]:
+            # text = p.get_text(separator=' ').strip()
+            # prices = re.findall(r'₹\s*([\d.]+)', text)   # extract ₹ values
+            # discount = re.search(r'(\d+)%\s*off', text)  # extract discount text
+
+            # if len(prices) >= 2:
+            #     mrp = float(prices[0])
+            #     actual_price = float(prices[1])
+            # elif len(prices) == 1:
+            #     mrp = float(prices[0])
+            #     actual_price = None
+            # else:
+            #     actual_price = mrp = None
+
+            # discount_percent = float(discount.group(1)) if discount else None
+
+            # print(f"Price after discount: ₹{actual_price}")
+            # print(f"MRP: ₹{mrp}")
+            # print(f"Discount: {discount_percent}%")
+            # print("-----------------")
             text = p.get_text(separator=' ').strip()
-            if '₹' in text:
-                name = text.split('₹')[0].strip()
-                price = '₹' + text.split('₹')[1].split()[0]
-                print(f"{name}: {price}")
+
+            # Extract medicine name (first few words before ₹)
+            name_match = re.match(r'([A-Za-z0-9\s\-\+]+)', text)
+            name = name_match.group(1).strip() if name_match else "Unknown"
+
+            # Extract all ₹ values and discount %
+            prices = re.findall(r'₹\s*([\d.]+)', text)
+            discount = re.search(r'(\d+)%\s*off', text)
+
+            mrp = float(prices[0]) if len(prices) >= 1 else None
+            actual_price = float(prices[1]) if len(prices) >= 2 else None
+            discount_percent = float(discount.group(1)) if discount else None
+
+            if discount_percent is not None:
+                if mrp > actual_price:
+                    pass
+                else:
+                    (mrp, actual_price) = (actual_price, mrp)
+
+            print(f"Name: {name}")
+            print(f"Price after discount: ₹{actual_price}")
+            print(f"MRP: ₹{mrp}")
+            print(f"Discount: {discount_percent}%")
+            print('-' * 40)
 
     finally:
         driver.quit()
 
 
 # Example usage
-if __name__ == "_main_":
+if __name__ == "__main__":
     med = input("Enter medicine name: ")
     get_medicine_price(med)
