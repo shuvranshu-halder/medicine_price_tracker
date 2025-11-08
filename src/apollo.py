@@ -33,7 +33,7 @@ def get_medicine_price(medicine_name: str, max_results: int = 1):
             return
 
         print(f"Top results for '{medicine_name}':\n")
-        for p in products[:5]:
+        for p in products[:1]:
             # print(p)
             text = p.get_text(separator=' ').strip()
             if '₹' in text:
