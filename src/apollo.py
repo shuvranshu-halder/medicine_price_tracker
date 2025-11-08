@@ -17,6 +17,7 @@ def get_medicine_price(medicine_name: str, max_results: int = 1):
     try:
         search_url = f"https://www.apollopharmacy.in/search-medicines/{medicine_name.replace(' ', '%20')}"
         driver.get(search_url)
+        soup = BeautifulSoup(driver.page_source, 'html.parser')
 
         # Let JS render results
         time.sleep(8)
@@ -32,7 +33,7 @@ def get_medicine_price(medicine_name: str, max_results: int = 1):
             return
 
         print(f"Top results for '{medicine_name}':\n")
-        for p in products[:20]:
+        for p in products[:5]:
             # print(p)
             text = p.get_text(separator=' ').strip()
             if '₹' in text:
