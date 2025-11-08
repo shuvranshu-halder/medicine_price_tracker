@@ -23,7 +23,6 @@ def get_medicine_price(medicine_name: str, max_results: int = 1):
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         time.sleep(2)
 
-<<<<<<< HEAD:src/apollo.py
         # Try to locate product containers
         products = soup.find_all('div', {'class': lambda x: x and 'ProductCard' in x})
         if not products:
@@ -42,51 +41,6 @@ def get_medicine_price(medicine_name: str, max_results: int = 1):
                 # price=text.split('off')[1]
                 print(f"{name}: {price}")
             # print("-----------------")
-=======
-        html = driver.execute_script("return document.body.innerHTML;")
-        soup = BeautifulSoup(html, "html.parser")
-
-        # ✅ Find each medicine card
-        product_cards = soup.find_all("div", class_=lambda c: c and "product-card" in c)
-
-        if not product_cards:
-            print(f"⚠️ No medicine results found for '{medicine_name}'. Try increasing sleep time slightly.")
-            return
-
-        print(f"\nTop {min(max_results, len(product_cards))} results for '{medicine_name}':\n")
-
-        for card in product_cards[:max_results]:
-            # --- Medicine name ---
-            name_tag = card.find(["a", "span", "p"], string=True)
-            name = "Unknown"
-            if name_tag:
-                # Filter out empty or generic text
-                name = name_tag.get_text(strip=True)
-                # Skip irrelevant strings like "Add to Cart"
-                if len(name) < 3 or "Add" in name:
-                    name = "Unknown"
-
-            # --- Price and MRP ---
-            text = card.get_text(separator=" ").strip()
-            prices = re.findall(r"₹\s*([\d,.]+)", text)
-            actual_price = prices[0] if len(prices) >= 1 else None
-            mrp = prices[1] if len(prices) >= 2 else None
-
-            # --- Discount ---
-            discount = None
-            disc_tag = card.find("span", class_=lambda c: c and "discount" in c)
-            if disc_tag:
-                discount = disc_tag.get_text(strip=True)
-
-            print(f"Name: {name}")
-            print(f"Price after discount: ₹{actual_price}")
-            # print(f"MRP: ₹{mrp}")
-            print(f"Discount: {discount}")
-            print("-" * 40)
-
-    except Exception as e:
-        print("❌ Error:", e)
->>>>>>> bef29d65021d0e238ca3f77e55455b66b72ecb21:src/netmeds.py
 
     finally:
         driver.quit()
