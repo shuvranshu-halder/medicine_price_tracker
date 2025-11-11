@@ -1,0 +1,5 @@
+selenium
+flask
+flask_cors
+bs4
+webdriver_manager
