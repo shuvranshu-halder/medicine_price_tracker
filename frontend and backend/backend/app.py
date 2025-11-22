@@ -10,8 +10,20 @@ from tata1mg_scrape import scrape_tata1mg
 from pharmeasy import scrape_pharmeasy
 from netmeds import get_medicine_price
 from apollo import scrape_apollo
+from database import get_db,init_db,save_search
+
 app = Flask(__name__)
 CORS(app)
+
+@app.post("/start-search")
+def start_search():
+    data = request.json
+    medicine = data.get("medicine")
+
+    if medicine:
+        save_search(medicine) 
+
+    return {"status": "ok"}
 
 @app.route('/',methods=['GET'])
 def home():
@@ -128,5 +140,24 @@ def download_pdf():
 
     return send_file(buffer, as_attachment=True, download_name="medicine_prices.pdf")
 
+@app.get("/get-count")
+def get_count():
+    medicine = request.args.get("medicine")
+
+    conn = get_db()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT count FROM searches WHERE name = ?", (medicine,))
+    row = cursor.fetchone()
+
+    conn.close()
+
+    if row:
+        return {"count": row["count"]}
+    else:
+        return {"count": 0}
+
 if __name__=="__main__":
+    init_db()
     app.run(debug=True)
+    
