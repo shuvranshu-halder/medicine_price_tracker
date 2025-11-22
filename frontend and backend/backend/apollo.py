@@ -41,7 +41,7 @@ def scrape_apollo(medicine_name: str):
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
 
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver = webdriver.Chrome( options=options)
 
     try:
         search_url = f"https://www.apollopharmacy.in/search-medicines/{medicine_name.replace(' ', '%20')}"
@@ -127,6 +127,6 @@ def scrape_apollo(medicine_name: str):
         driver.quit()
 
 
-# if __name__ == "__main__":
-#     medicine = input("Enter medicine name: ").strip()
-#     scrape_apollo(medicine)
+if __name__ == "__main__":
+    medicine = input("Enter medicine name: ").strip()
+    scrape_apollo(medicine)
