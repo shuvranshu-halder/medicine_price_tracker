@@ -73,6 +73,6 @@ def scrape_tata1mg(medicine_name: str):
 
 
 # Example usage
-if __name__ == "__main__":
-    med = input("Enter medicine name: ")
-    scrape_tata1mg(med)
+# if __name__ == "__main__":
+#     med = input("Enter medicine name: ")
+#     scrape_tata1mg(med)

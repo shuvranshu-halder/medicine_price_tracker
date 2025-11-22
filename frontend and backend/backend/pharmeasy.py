@@ -154,13 +154,13 @@ def display_results(medicines):
         print("-" * 80)
 
 
-if __name__ == "__main__":
-    # Get user input
-    medicine_name = input("Enter medicine name to search: ").strip()
+# if __name__ == "__main__":
+#     # Get user input
+#     medicine_name = input("Enter medicine name to search: ").strip()
 
-    if not medicine_name:
-        print("Please enter a valid medicine name!")
-    else:
-        print(f"\nSearching for '{medicine_name}' on PharmEasy...")
-        results = scrape_pharmeasy(medicine_name)
-        display_results(results)
+#     if not medicine_name:
+#         print("Please enter a valid medicine name!")
+#     else:
+#         print(f"\nSearching for '{medicine_name}' on PharmEasy...")
+#         results = scrape_pharmeasy(medicine_name)
+#         display_results(results)

@@ -5,6 +5,35 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 import re
 
+def clean_text(text):
+    if not text:
+        return None
+
+    text = text.strip()
+
+    # Remove unnecessary labels
+    remove_patterns = [
+        r"Find Nearest Store.*",
+        r"Sort By:.*",
+        r"Available in Apollo Pharmacy.*",
+        r"View Options.*",
+        r"Not for online sale.*",
+        r"With coupons.*",
+        r"₹\s*",  # clean stray rupee formatting
+    ]
+
+    for pattern in remove_patterns:
+        text = re.sub(pattern, "", text, flags=re.IGNORECASE)
+
+    # Clean any weird unicode blocks ■
+    text = re.sub(r"[■]+", "", text)
+
+    # Remove large unnecessary chunks
+    if len(text) > 60:
+        text = text[:60] + "..."
+
+    return text.strip()
+
 
 def scrape_apollo(medicine_name: str):
     options = Options()
@@ -56,7 +85,7 @@ def scrape_apollo(medicine_name: str):
                 price = prices[0]
 
             results.append({
-                "name": snippet,
+                "name": clean_text(snippet),
                 "MRP": mrp,
                 "Discount": discount,
                 "selling_price": price
@@ -82,6 +111,7 @@ def scrape_apollo(medicine_name: str):
             pass
 
         # ✅ Output
+        print("apollo results for", medicine_name)
         if not unique_results:
             print("⚠️ No valid matches found for", medicine_name)
         else:
@@ -97,7 +127,6 @@ def scrape_apollo(medicine_name: str):
         driver.quit()
 
 
-# Example usage
-if __name__ == "__main__":
-    medicine = input("Enter medicine name: ").strip()
-    scrape_apollo(medicine)
+# if __name__ == "__main__":
+#     medicine = input("Enter medicine name: ").strip()
+#     scrape_apollo(medicine)

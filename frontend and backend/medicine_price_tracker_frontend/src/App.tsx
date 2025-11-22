@@ -1,16 +1,15 @@
-import Header from './components/Header.tsx'
-import Body from './components/Body.tsx'
-import Footer from './components/Footer.tsx'
+import Header from './components/Header'
+import Body from './components/Body'
+import Footer from './components/Footer'
 
-function App(){
-    return (
-        <>
-        <Header/>
-        <Body/>
-        <Footer/>
-        </>
-    
-    );
+function App() {
+  return (
+    <>
+      <Header />   
+      <Body />     
+      <Footer />
+    </>
+  );
 }
 
 export default App;

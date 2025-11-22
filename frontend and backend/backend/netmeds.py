@@ -78,6 +78,6 @@ def get_medicine_price(medicine_name: str, max_results: int = 1):
         driver.quit()
 
 
-if __name__ == "__main__":
-    med = input("Enter medicine name: ")
-    get_medicine_price(med)
+# if __name__ == "__main__":
+#     med = input("Enter medicine name: ")
+#     get_medicine_price(med)

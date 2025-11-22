@@ -1,4 +1,10 @@
-from flask import Flask, jsonify,request
+from flask import Flask, jsonify,request,send_file
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.enums import TA_LEFT, TA_CENTER
+import io
 from flask_cors import CORS
 from tata1mg_scrape import scrape_tata1mg
 from pharmeasy import scrape_pharmeasy
@@ -42,6 +48,85 @@ def AP_get_price():
     AP_price_info = scrape_apollo(medicine_name)
     
     return jsonify(AP_price_info)
+
+@app.post("/download-pdf")
+def download_pdf():
+    data = request.json
+    medicine = data.get("medicine", "Medicine")
+    results = data.get("results", {})
+
+    buffer = io.BytesIO()
+    pdf = SimpleDocTemplate(buffer, pagesize=A4)
+
+    styles = getSampleStyleSheet()
+    body_style = styles["BodyText"]
+    body_style.wordWrap = "CJK"  # 🔥 enables line wrapping
+
+    title_style = styles["Title"]
+    title_style.alignment = TA_CENTER
+
+    elements = []
+
+    # Title
+    elements.append(Paragraph(f"<b>Price Comparison for: {medicine}</b>", title_style))
+    elements.append(Spacer(1, 12))
+
+    for site, site_results in results.items():
+        elements.append(Paragraph(f"<b>{site}</b>", styles["Heading2"]))
+        elements.append(Spacer(1, 6))
+
+        if not site_results:
+            elements.append(Paragraph("No data found.", styles["BodyText"]))
+            elements.append(Spacer(1, 12))
+            continue
+
+        # Table header
+        def to_str(value):
+            if value is None:
+                return "-"
+            return str(value)
+
+        data_table = [
+            [
+                Paragraph("<b>Name</b>", body_style),
+                Paragraph("<b>MRP</b>", body_style),
+                Paragraph("<b>Selling Price</b>", body_style),
+            ]
+        ]
+
+        for item in site_results:
+            data_table.append([
+                Paragraph(to_str(item.get("name", "-")), body_style),
+                Paragraph(to_str(item.get("MRP", "-")), body_style),
+                Paragraph(to_str(item.get("selling_price", "-")), body_style),
+            ])
+
+
+        # Create table (column width adjusted so long text wraps)
+        table = Table(data_table, colWidths=[230, 80, 100])
+
+        table.setStyle(TableStyle([
+            ('BACKGROUND', (0,0), (-1,0), colors.lightgrey),
+            ('TEXTCOLOR', (0,0), (-1,0), colors.black),
+
+            ('ALIGN', (1,1), (-1,-1), 'CENTER'),
+
+            ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+            ('FONTSIZE', (0,0), (-1,-1), 10),
+
+            ('BOTTOMPADDING', (0,0), (-1,0), 8),
+            ('TOPPADDING', (0,0), (-1,0), 8),
+
+            ('GRID', (0,0), (-1,-1), 0.5, colors.grey),
+        ]))
+
+        elements.append(table)
+        elements.append(Spacer(1, 20))
+
+    pdf.build(elements)
+    buffer.seek(0)
+
+    return send_file(buffer, as_attachment=True, download_name="medicine_prices.pdf")
 
 if __name__=="__main__":
     app.run(debug=True)
