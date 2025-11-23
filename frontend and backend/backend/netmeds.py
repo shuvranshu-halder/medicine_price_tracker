@@ -182,12 +182,6 @@ def get_medicine_price(medicine_name: str, max_results: int = 5):
         driver.quit()
 
 
-if __name__ == "__main__":
-    medicine = input("Enter medicine name: ").strip()
-    if medicine:
-        results = get_medicine_price(medicine, max_results=5)
-        print(f"\n{'='*70}")
-        print(f"Successfully extracted {len(results)} unique products")
-        print(f"{'='*70}")
-    else:
-        print("Please enter a medicine name")
+# if __name__ == "__main__":
+#     med = input("Enter medicine name: ")
+#     get_medicine_price(med)
