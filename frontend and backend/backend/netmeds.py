@@ -36,10 +36,6 @@ def get_medicine_price(medicine_name: str, max_results: int = 5):
         html = driver.page_source
         soup = BeautifulSoup(html, "html.parser")
 
-        # Debug: Save HTML to see structure (optional)
-        # with open('debug_page.html', 'w', encoding='utf-8') as f:
-        #     f.write(html)
-
         # Find product containers - try multiple patterns
         product_cards = []
         
@@ -69,8 +65,8 @@ def get_medicine_price(medicine_name: str, max_results: int = 5):
                     break
 
         if not product_cards:
-            print(" No products found!")
-            print("\n Debug: Checking for common elements...")
+            print("❌ No products found!")
+            print("\n📊 Debug: Checking for common elements...")
             # Check what's actually on the page
             price_elements = soup.find_all(string=re.compile(r"₹"))
             print(f"Found {len(price_elements)} elements with ₹ symbol")
@@ -126,13 +122,14 @@ def get_medicine_price(medicine_name: str, max_results: int = 5):
                 discount_percent = int(disc_match.group(1))
                 discount = f"{discount_percent}% off"
             
+            # Fix: Correct price indexing (0-based indexing)
             if len(prices_clean) >= 2:
-                # Both prices are shown
-                selling_price = prices_clean[1]
-                mrp = prices_clean[2]
+                # Both prices are shown - first is selling price, second is MRP
+                selling_price = prices_clean[0]
+                mrp = prices_clean[1]
             elif len(prices_clean) == 1 and discount_percent:
                 # Only discounted price shown, back-calculate MRP
-                selling_price = prices_clean[1]
+                selling_price = prices_clean[0]
                 # Formula: selling_price = mrp * (1 - discount/100)
                 # So: mrp = selling_price / (1 - discount/100)
                 mrp = round(selling_price / (1 - discount_percent/100), 2)
@@ -148,21 +145,28 @@ def get_medicine_price(medicine_name: str, max_results: int = 5):
             if selling_price and name != "Unknown":
                 print(f"\n[{len(result) + 1}] {name}")
                 print(f"Selling Price (After Discount): ₹{selling_price}")
-                if mrp:
-                    print(f"MRP (Original Price): ₹{mrp}")
-                    if discount_percent:
-                        savings = mrp - selling_price
-                        print(f"You Save: ₹{savings:.2f}")
+                if mrp and mrp != selling_price:
+                    print(f" MRP (Original Price): ₹{mrp}")
+                    savings = mrp - selling_price
+                    print(f"You Save: ₹{savings:.2f}")
                 if discount:
                     print(f"Discount: {discount}")
                 print("-" * 70)
                 
+                # Fix: Safe discount calculation
+                discount_value = None
+                savings_value = None
+                
+                if mrp and mrp > 0 and mrp != selling_price:
+                    savings_value = round(mrp - selling_price, 2)
+                    discount_value = int((savings_value * 100) / mrp)
+                
                 result.append({
                     "name": name,
                     "selling_price": selling_price,
-                    "MRP": mrp if mrp else None,
-                    "Discount": int((mrp-selling_price)*100/mrp) if mrp else None,
-                    "savings": mrp - selling_price if mrp else None
+                    "MRP": mrp if (mrp and mrp != selling_price) else None,
+                    "Discount": discount_value,
+                    "savings": savings_value
                 })
         
         if len(result) == 0:
@@ -181,7 +185,12 @@ def get_medicine_price(medicine_name: str, max_results: int = 5):
     finally:
         driver.quit()
 
-
-# if __name__ == "__main__":
-#     med = input("Enter medicine name: ")
-#     get_medicine_price(med)
+if __name__ == "__main__":
+    medicine = input("Enter medicine name: ").strip()
+    if medicine:
+        results = get_medicine_price(medicine, max_results=5)
+        print(f"\n{'='*70}")
+        print(f"Successfully extracted {len(results)} unique products")
+        print(f"{'='*70}")
+    else:
+        print("Please enter a medicine name")
