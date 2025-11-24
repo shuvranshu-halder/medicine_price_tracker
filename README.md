@@ -1,6 +1,6 @@
-# 💊 Medicine Price Tracker
+# Medicine Price Tracker
 
-## 💌 Project Overview
+## Project Overview
 
 Access to affordable healthcare is often limited by the rising costs of essential medicines.
 This project aims to scrape prices of essential medicines from multiple online pharmacies and provide a **dashboard** where people can **compare prices** and find the **most affordable sources**.
@@ -9,7 +9,7 @@ By making medicine price data transparent and easily accessible, we hope to empo
 
 ---
 
-## 🎯 Goals
+## Goals
 
 * Scrape MRP, discount and final selling price for a user-entered medicine from major online pharmacies.
 * Display the collected pricing data in a clear comparative table on a web dashboard.
@@ -25,7 +25,7 @@ By making medicine price data transparent and easily accessible, we hope to empo
 * **API Calls**: REST API 
 ---
 
-## 📂 Repository Structure (Final)
+## Repository Structure (Final)
 
 ```
 medicine_price_tracker/
@@ -72,7 +72,7 @@ medicine_price_tracker/
 ---
 
 
-## 🚀 How to Run the Project
+## How to Run the Project
 
 ### 1️⃣ Clone the Repository
 
@@ -110,7 +110,7 @@ The frontend development server will start, and the terminal will show the exact
 
 
 
-### 🔍 Usage
+### Usage
 
 * Enter any **medicine name** in the search box
 * View price and availability results instantly
