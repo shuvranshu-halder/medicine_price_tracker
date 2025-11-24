@@ -17,7 +17,7 @@ By making medicine price data transparent and easily accessible, we hope to empo
 
 ---
 
-## 🔧 Tech Stack
+## Tech Stack
 
 * **Backend / Scraping**: Python (Flask + Selenium)
 * **Database**: SQLite
