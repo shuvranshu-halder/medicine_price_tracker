@@ -81,7 +81,7 @@ git clone https://github.com/shuvranshu-halder/medicine_price_tracker.git
 cd medicine_price_tracker
 ```
 
-
+Go into the ```frontend and backend``` directory.
 
 
 ### 2️⃣ Backend Setup
