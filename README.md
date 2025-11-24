@@ -11,67 +11,111 @@ By making medicine price data transparent and easily accessible, we hope to empo
 
 ## 🎯 Goals
 
-* Scrape medicine prices from multiple online pharmacy websites based on user input.
-* Store and maintain updated price data.
-* Build a web-based dashboard for comparing prices.
-* Provide search and filtering options for essential medicines.
-* Ensure scalability and accuracy of the data pipeline.
+* Scrape MRP, discount and final selling price for a user-entered medicine from major online pharmacies.
+* Display the collected pricing data in a clear comparative table on a web dashboard.
+* Allow users to download the comparison as a PDF for reference.
 
 ---
 
 ## 🔧 Tech Stack
 
 * **Backend / Scraping**: Python (Flask + Selenium)
-* **Database**: SQLite (initial), upgradeable to PostgreSQL/MongoDB
-* **Frontend / Dashboard**: React.js with Axios for API calls
-* **Deployment**: Vercel (Not finalised yet)
-
+* **Database**: SQLite
+* **Frontend / Dashboard**: React.js + Typescript + Vite
+* **API Calls**: REST API 
 ---
 
-## 📂 Repository Structure (Planned)
+## 📂 Repository Structure (Final)
 
 ```
 medicine_price_tracker/
 │
-├── backend/                 # Flask API and database management
-│   ├── app.py               # Flask app and API routes
-│   └── database/            # DB creation and management
-│       └── create_database.ipynb
-│
-├── frontend/                # React frontend application
-│   ├── package.json
-│   ├── src/
-│   │   ├── components/      # React components
-│   │   └── App.js
-│   └── public/
-│
-├── data/                    # Scraped and processed datasets
-│   ├── raw/                 # Raw HTML/JSON from scrapers
-│   └── medicines.db         # SQLite database for Flask API
-│
-├── docs/                    # Documentation and reports
-│
-├── src/                     # Jupyter notebooks for scraping and testing
-│   ├── scraper.ipynb        # Combined Selenium-based scrapers for user input medicines
-│   └── tests/               # Unit & integration tests
-│       ├── test_scraper.ipynb
-│       ├── test_database.ipynb
-│       └── test_api_routes.ipynb
-│
-├── requirements.txt         # Python dependencies
-└── README.md                # Project overview
+├── frontend and backend/         
+│   ├── backend/
+|   |   ├── apollo.py
+|   |   ├── app.py
+|   |   ├── database.py
+|   |   ├── medicines.db
+|   |   ├── netmeds.py
+|   |   ├── pharmeasy.py
+|   |   ├── requirements.txt
+|   |   └── tata1mg_scrape.py 
+│   └── medicine_price_tracker_frontend/           
+│       ├── src/
+|       |   ├── assets/
+|       |   |   ├──bg_image.png
+|       |   |   ├──logo.png
+|       |   |   └──react.svg
+|       |   ├── components/
+|       |   |   ├──Body.tsx
+|       |   |   ├──Footer.tsx
+|       |   |   ├──Header.tsx
+|       |   |   └──medicineResults.tsx
+|       |   ├── App.css
+|       |   ├── App.tsx
+|       |   ├── main.tsx
+|       |   └── test.tsx
+|       ├── .gitignore
+|       ├── README.md
+|       ├── eslint.config.js
+|       ├── index.html
+|       ├── package-lock.json
+|       ├── package.json
+|       ├── tsconfig.app.json
+|       ├── tsconfig.json
+|       ├── tsconfig.node.json
+|       └── vite.config.ts
+├── .gitignore
+└── README.md
 ```
 
 ---
 
-## 📜 License
 
-This project will be open-sourced under the **MIT License**.
+## 🚀 How to Run the Project
 
----
+### 1️⃣ Clone the Repository
 
-## 💎 Links
+```sh
+git clone https://github.com/shuvranshu-halder/medicine_price_tracker.git
+cd medicine_price_tracker
+```
 
-🔗 GitHub Repository: [Medicine Price Tracker](https://github.com/shuvranshu-halder/medicine_price_tracker)
+
+
+
+### 2️⃣ Backend Setup
+
+```sh
+cd backend
+pip install -r requirements.txt
+python app.py
+```
+
+Backend server will start successfully.
+
+
+
+### 3️⃣ Frontend Setup
+
+Open a **new terminal tab/window** and run:
+
+```sh
+cd medicine_price_tracker_frontend
+npm install   # (Only required during first setup)
+npm run dev
+```
+
+The frontend development server will start, and the terminal will show the exact URL. You can Ctrl+Click the link in the terminal to open it in your browser.
+
+
+
+### 🔍 Usage
+
+* Enter any **medicine name** in the search box
+* View price and availability results instantly
+* Track **how many times** a medicine was searched
+* Download results as **PDF**
+
 
 ---
