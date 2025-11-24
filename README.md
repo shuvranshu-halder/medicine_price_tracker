@@ -30,41 +30,41 @@ By making medicine price data transparent and easily accessible, we hope to empo
 ```
 medicine_price_tracker/  # Root project directory
 │
-├── frontend and backend/   # Contains both backend server and frontend client
+├── frontend and backend/   
 │   ├── backend/   # Python Flask backend for API and scraping
-|   |   ├── apollo.py  # Scraper module for Apollo Pharmacy website
-|   |   ├── app.py  # Main Flask application exposing REST API endpoints
-|   |   ├── database.py  # Handles SQLite DB connection and queries
-|   |   ├── medicines.db  # SQLite database storing medicine prices/data
-|   |   ├── netmeds.py  # Scraper module for Netmeds website
-|   |   ├── pharmeasy.py  # Scraper module for PharmEasy website
-|   |   ├── requirements.txt  # Python dependencies to run backend
-|   |   └── tata1mg_scrape.py  # Scraper module for Tata 1mg website
+|   |   ├── apollo.py          # Scraper module for Apollo Pharmacy website
+|   |   ├── app.py        # Main Flask application exposing REST API endpoints
+|   |   ├── database.py      # Handles SQLite DB connection and queries
+|   |   ├── medicines.db       # SQLite database storing medicine data
+|   |   ├── netmeds.py     # Scraper module for Netmeds website
+|   |   ├── pharmeasy.py       # Scraper module for PharmEasy website
+|   |   ├── requirements.txt       # Python dependencies to run backend
+|   |   └── tata1mg_scrape.py         # Scraper module for Tata 1mg website
 │   └── medicine_price_tracker_frontend/  # React frontend application
-│       ├── src/  # Main source code
-|       |   ├── assets/  # Images and static resources
-|       |   |   ├──bg_image.png  # Background image used in UI
-|       |   |   ├──logo.png  # App logo displayed in UI
-|       |   |   └──react.svg  # React icon graphic
+│       ├── src/  
+|       |   ├── assets/ 
+|       |   |   ├──bg_image.png       # Background image used in UI
+|       |   |   ├──logo.png       # App logo displayed in UI
+|       |   |   └──react.svg  
 |       |   ├── components/  # UI components
-|       |   |   ├──Body.tsx  # Main interface where search results appear
-|       |   |   ├──Footer.tsx  # App footer layout component
-|       |   |   ├──Header.tsx  # Navbar/header UI of the app
-|       |   |   └──medicineResults.tsx  # Component to display scraped prices
-|       |   ├── App.css  # Global styling for the React app
+|       |   |   ├──Body.tsx     # Main interface where search results appear
+|       |   |   ├──Footer.tsx      # App footer layout component
+|       |   |   ├──Header.tsx       # Navbar/header UI of the app
+|       |   |   └──medicineResults.tsx  # Component to display scraped prices for every webiste
+|       |   ├── App.css 
 |       |   ├── App.tsx  # Root React component
-|       |   ├── main.tsx  # Entry point that renders App into DOM
-|       |   └── test.tsx  # Optional testing / demo component
-|       ├── .gitignore  # Git ignored frontend files
-|       ├── README.md  # Frontend-specific documentation
-|       ├── eslint.config.js  # ESLint configuration for code quality
-|       ├── index.html  # HTML root file Vite injects build output into
-|       ├── package-lock.json  # NPM dependency lock file
+|       |   ├── main.tsx  
+|       |   └── test.tsx  
+|       ├── .gitignore  
+|       ├── README.md  
+|       ├── eslint.config.js  
+|       ├── index.html 
+|       ├── package-lock.json  
 |       ├── package.json  # Frontend dependencies and build scripts
-|       ├── tsconfig.app.json  # TypeScript config for the app
-|       ├── tsconfig.json  # Base TypeScript configuration
-|       ├── tsconfig.node.json  # TS configuration for Node tooling
-|       └── vite.config.ts  # Vite config for dev server & build
+|       ├── tsconfig.app.json  
+|       ├── tsconfig.json 
+|       ├── tsconfig.node.json  
+|       └── vite.config.ts  
 ├── .gitignore  # Backend global ignore rules for Git
 └── README.md  # Root/project-level documentation
 
